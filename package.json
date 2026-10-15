@@ -1,0 +1,21 @@
+{
+  "name": "demo-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "egg-bin dev",
+    "start:single": "node server.js",
+    "start": "egg-scripts start --title egg-demo-app",
+    "stop": "egg-scripts stop --title egg-demo-app"
+  },
+  "egg": {
+    "framework": "egg-coral-base"
+  },
+  "dependencies": {
+    "egg-coral-base": "^0.1.0"
+  },
+  "devDependencies": {
+    "egg-bin": "^6.4.1",
+    "egg-scripts": "^3.0.0"
+  }
+}
