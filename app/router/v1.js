@@ -1,18 +1,16 @@
 'use strict';
 
-// 路由前缀演示（生效路由：GET /v1/time、GET /v1/ping）
-//
-// ⚠️ 为什么不用 router.prefix('/v1')？
-// app.router 是全局单例（app/ 与 app/router/ 下所有文件共用同一个实例），
-// prefix() 会把"之前已注册的所有路由"统一改写前缀，导致 / 与 /api/* 全部 404。
-// Egg 里推荐两种姿势：
-//   1. 直接写全路径（如下，用常量拼接保持整洁）
-//   2. 或者把前缀抽到 config，如 `${app.config.routePrefix}/time`
-const PREFIX = '/v1';
-
+// 框架 0.2.0 内置 egg-router-plus：自动加载本文件，不需在 app/router.js 手动 require。
+// namespace('/v1') 只给本组添加前缀，不影响 /、/api/users 等其他路由。
+// 第二个参数是分组中间件：仅访问本组接口时返回 x-route-group: v1。
+// 不再调用全局 router.prefix()，也不需要在每个接口重复拼接 /v1。
 module.exports = app => {
-  const { router, controller } = app;
+  const { controller } = app;
+  const v1 = app.router.namespace('/v1', async (ctx, next) => {
+    ctx.set('x-route-group', 'v1');
+    await next();
+  });
 
-  router.get(`${PREFIX}/time`, controller.advanced.time);
-  router.get(`${PREFIX}/ping`, controller.advanced.ping);
+  v1.get('v1.time', '/time', controller.advanced.time);
+  v1.get('v1.ping', '/ping', controller.advanced.ping);
 };

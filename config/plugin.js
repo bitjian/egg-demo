@@ -2,6 +2,7 @@
 
 // 插件开启中心：
 // - Egg 已内置启用 onerror/session/security/static/view/schedule 等，无需重复声明
+// - egg-coral-base 0.2.x 已启用 routerPlus，不需要重复声明
 // - 这里只放"额外加装"的第三方插件；配套连接配置写在 config.default.js
 module.exports = {
   // ---- 数据库（对应 config.default.js 的 config.knex）----
